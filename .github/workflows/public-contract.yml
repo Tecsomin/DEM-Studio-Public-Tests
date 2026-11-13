@@ -1,10 +1,22 @@
 name: Public independent CSV contract checks
 on:
   push:
+    branches: [main]
+    paths:
+      - 'verify_csv.py'
+      - 'tests/**'
+      - '.github/workflows/public-contract.yml'
   pull_request:
+    paths:
+      - 'verify_csv.py'
+      - 'tests/**'
+      - '.github/workflows/public-contract.yml'
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: contract-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   reference-checks:
     strategy:
